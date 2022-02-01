@@ -81,5 +81,40 @@ summ.table %>% add_column(model.name,.before="null.deviance")
 ## we can infer from these results that residents with larger hind femurs relative to their opponents are more likely to win,
 ## i.e., it is not absolute femur size that is important, but femur size RELATIVE to your opponent.
 
+# Plot
+plot(fights$res.win~fights$logdiff.fcs,main="",ylab="Probability of resident winning",xlab="Relative difference in femur centroid size",las=1)
+x <- seq(-0.3588946, 0.3938675, length = 131)
+y <- predict(fsize, data.frame(logdiff.fcs=x),type="response")
+lines(x,y)
+
+# Standard error
+y.se<-predict(fsize, data.frame(logdiff.fcs=x),type="response",se.fit=T)
+UL<- y + y.se$se.fit*1.96
+LL<- y - y.se$se.fit*1.96
+
+# Confidence interval
+# transparent red: polygon(c(rev(x),x),c(rev(UL),LL),col=rgb(1,0,0,0.2),border=F)
+polygon(c(rev(x),x),c(rev(UL),LL),col=rgb(0.5,0.5,0.5,0.2),border=F) # transparent grey
+
+# Legend for lines
+legend(0.1,0.3, legend=c("Intercept","Equal probability"),lty=c(2,3),bty="n")
+
+# Intercept
+yval<-predict(fsize,data.frame(logdiff.fcs=0),type="resp")
+xmin<-min(fights$logdiff.fcs)
+clip(x1=xmin,x2=0,y1=0,y2=yval)
+abline(h=yval,v=0,lty=2)
+
+# Equal probability
+# Calculating x value corresponding to y = 0.5
+findInt <- function(model, value) {
+  function(x) {
+    predict(model, data.frame(logdiff.fcs=x), type="response") - value
+  }
+}
+equal<-uniroot(findInt(fsize, .5), range(fights$logdiff.fcs))$root
+
+clip(x1=xmin,x2=equal,y1=0,y2=0.5)
+abline(h=0.5,v=equal,lty=3)
 
 
