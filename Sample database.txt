@@ -1,0 +1,198 @@
+CREATE DATABASE "MonkeyBeetles"
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'English_United Kingdom.1252'
+    LC_CTYPE = 'English_United Kingdom.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+COMMENT ON DATABASE "MonkeyBeetles"
+    IS 'Database containing information about Blue Monkey Beetles <i>Scelophysa trimeni</i>';
+
+CREATE SCHEMA tiger
+    AUTHORIZATION postgres;
+
+CREATE SCHEMA tiger_data
+    AUTHORIZATION postgres;
+
+CREATE SCHEMA topology
+    AUTHORIZATION postgres;
+
+COMMENT ON SCHEMA topology
+    IS 'PostGIS Topology schema';
+
+ALTER DATABASE "MonkeyBeetles"
+    SET search_path TO "$user", public, tiger;
+
+CREATE SCHEMA public
+    AUTHORIZATION postgres;
+
+COMMENT ON SCHEMA public
+    IS 'standard public schema';
+
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+GRANT ALL ON SCHEMA public TO postgres;
+
+CREATE TABLE IF NOT EXISTS public.beetle
+(
+    id character(1) COLLATE pg_catalog."default" NOT NULL,
+    site_name character(4) COLLATE pg_catalog."default" NOT NULL,
+    body_width numeric(4,2),
+    femur_cs numeric(11,9),
+    tibia_cs numeric(11,9),
+    tarsus_cs numeric(11,9),
+    claw_cs numeric(11,9),
+    s1u numeric(9,8),
+    s1b numeric(9,8),
+    CONSTRAINT beetle_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.beetle
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.occurrence
+(
+    occurrence uuid NOT NULL,
+    flower_sp character(4) COLLATE pg_catalog."default",
+    site_name character(4) COLLATE pg_catalog."default",
+    centre_s1u numeric(10,9),
+    centre_s1b numeric(10,9),
+    petal_s1u numeric(10,9),
+    petal_s1b numeric(10,9),
+    CONSTRAINT occurrence_pkey PRIMARY KEY (occurrence),
+    CONSTRAINT occurrence_site_name_fkey FOREIGN KEY (site_name)
+        REFERENCES public.site (name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.occurrence
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.site
+(
+    name character(4) COLLATE pg_catalog."default" NOT NULL,
+    mst numeric(4,2) NOT NULL,
+    map numeric(5,2) NOT NULL,
+    coords geography NOT NULL,
+    CONSTRAINT site_pkey PRIMARY KEY (name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.site
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.soc
+(
+    sample uuid NOT NULL,
+    site_name character(1) COLLATE pg_catalog."default",
+    soc_value numeric(4,2),
+    CONSTRAINT soc_pkey PRIMARY KEY (sample),
+    CONSTRAINT soc_site_name_fkey FOREIGN KEY (site_name)
+        REFERENCES public.site (name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.soc
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.spatial_ref_sys
+(
+    srid integer NOT NULL,
+    auth_name character varying(256) COLLATE pg_catalog."default",
+    auth_srid integer,
+    srtext character varying(2048) COLLATE pg_catalog."default",
+    proj4text character varying(2048) COLLATE pg_catalog."default",
+    CONSTRAINT spatial_ref_sys_pkey PRIMARY KEY (srid),
+    CONSTRAINT spatial_ref_sys_srid_check CHECK (srid > 0 AND srid <= 998999)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.spatial_ref_sys
+    OWNER to postgres;
+
+REVOKE ALL ON TABLE public.spatial_ref_sys FROM PUBLIC;
+
+GRANT ALL ON TABLE public.spatial_ref_sys TO postgres;
+
+GRANT SELECT ON TABLE public.spatial_ref_sys TO PUBLIC;
+
+CREATE TABLE IF NOT EXISTS public.us_gaz
+(
+    id integer NOT NULL DEFAULT nextval('us_gaz_id_seq'::regclass),
+    seq integer,
+    word text COLLATE pg_catalog."default",
+    stdword text COLLATE pg_catalog."default",
+    token integer,
+    is_custom boolean NOT NULL DEFAULT true,
+    CONSTRAINT pk_us_gaz PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.us_gaz
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.us_lex
+(
+    id integer NOT NULL DEFAULT nextval('us_lex_id_seq'::regclass),
+    seq integer,
+    word text COLLATE pg_catalog."default",
+    stdword text COLLATE pg_catalog."default",
+    token integer,
+    is_custom boolean NOT NULL DEFAULT true,
+    CONSTRAINT pk_us_lex PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.us_lex
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.us_rules
+(
+    id integer NOT NULL DEFAULT nextval('us_rules_id_seq'::regclass),
+    rule text COLLATE pg_catalog."default",
+    is_custom boolean NOT NULL DEFAULT true,
+    CONSTRAINT pk_us_rules PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.us_rules
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.visitation
+(
+    visitation uuid NOT NULL,
+    flower_sp character(4) COLLATE pg_catalog."default",
+    beetle_id character(4) COLLATE pg_catalog."default",
+    flower_size numeric(5,2),
+    site_name character(4) COLLATE pg_catalog."default",
+    CONSTRAINT visitation_pkey PRIMARY KEY (visitation),
+    CONSTRAINT visitation_beetle_id_fkey FOREIGN KEY (beetle_id)
+        REFERENCES public.beetle (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT visitation_site_name_fkey FOREIGN KEY (site_name)
+        REFERENCES public.site (name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.visitation
+    OWNER to postgres;
+
