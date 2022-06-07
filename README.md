@@ -10,8 +10,11 @@ So far, much of the source data comes from work I did during my PhD on monkey be
     - [Contestant size ~ contest duration](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/generalized_linear_models.R): to understand how contestant sizes are correlated with contest duration, I constructed several candidate models examining key aspects of contestant size and compared their fit to the data using the Akaike Information Criterion (AIC) (for more information, see the length comment at the beginning of the [code file](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/generalized_linear_models.R))
 
 - Relational database containing data from several populations of blue monkey beetles _Scelophysa trimeni_
-    - [DUMP](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/beetle-db_schema-only.txt): schema only!
+    - [DUMP](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/monkeybeetle_db.txt): pre- and post-data only!
 
-
+- FORTHCOMING
+    - Density plots (ggplot2)
+    - Map with inset (QGIS)
+    - 
 
 
