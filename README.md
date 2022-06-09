@@ -6,8 +6,7 @@ So far, much of the source data comes from work I did during my PhD on monkey be
 
 -  Duels between male monkey beetles _Heterochelus chiragricus_
     - [Source data](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/beetle_fights_chiragricus.csv): data from fights between 172 pairs of beetles, including the weapon (hind leg) size and body size of each competitor and the duration of the fight.
-    - (Exploratory analyses): getting a bird's eye view of the data with visualisations and descriptive statistics.
-    - [Contestant size ~ contest duration](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/generalized_linear_models.R): to understand how contestant sizes are correlated with contest duration, I constructed several candidate models examining key aspects of contestant size and compared their fit to the data using the Akaike Information Criterion (AIC) (for more information, see the length comment at the beginning of the [code file](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/generalized_linear_models.R))
+    - [Likelihood of resident beetles winning contests](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/beetle_glm_rmarkdown.md): using relative differences in weapon size between competitors to predict how likely a resident male is to win against an intruder.
 
 - Relational database containing data from several populations of blue monkey beetles _Scelophysa trimeni_
     - [DUMP](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/monkeybeetle_db.txt): pre- and post-data only!
