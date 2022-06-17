@@ -11,9 +11,12 @@ So far, much of the source data comes from work I did during my PhD on monkey be
 - Relational database containing data from several populations of blue monkey beetles _Scelophysa trimeni_
     - [DUMP](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/monkeybeetle_db.txt): pre- and post-data only!
 
+- Ridgeplot illustrating variation in size of the four anatomical structures comprising the hind leg weaponry of _S. trimeni_ - ggplot2
+    - [Data](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/beetle_leg-component_sizes.csv)
+    - [R script](https://github.com/ariellanr/DataAnalystPortfolio/blob/main/ridge_plots_17-06-2022.R)
+
 - FORTHCOMING
-    - Density plots (ggplot2)
     - Map with inset (QGIS)
-    - 
+    - Stuff in Python!
 
 
