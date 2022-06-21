@@ -8,7 +8,6 @@ library(tidyverse)
 data<-read.csv("beetle_leg-component_sizes.csv")
 data<-na.omit(data)
 head(data)
-data$id<-as.factor(data$ï..id)
 data$population<-as.factor(data$population)
 
 # Reshape from wide to long

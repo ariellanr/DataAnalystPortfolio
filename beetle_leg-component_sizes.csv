@@ -1,4 +1,4 @@
-﻿id,population,centroid.size_femur,centroid.size_tibia,centroid.size_pretarsus,centroid.size_claw
+id,population,centroid.size_femur,centroid.size_tibia,centroid.size_pretarsus,centroid.size_claw
 DBAY_140_ast,DBAY,9.097677073,8.86218135,5.199354751,3.75991704
 DBAY_D100,DBAY,8.826566202,8.650613138,4.84438289,3.738516659
 DBAY_D103,DBAY,8.83248794,9.02713513,5.38851494,3.713945488
